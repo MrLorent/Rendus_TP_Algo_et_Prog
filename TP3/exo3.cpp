@@ -210,22 +210,18 @@ struct BinarySearchTree : public BinaryTree
         // right child +1 for itself. If there is no child, return
         // just 1
 
-        int leftHeight = 0, rightHeight = 0;
-
         if(this->isLeaf()){
             return 1;
         }else{
+            int leftHeight = 0, rightHeight = 0;
+
             // computing of the left height
-            if(this->left == NULL){
-                leftHeight = 0;
-            }else{
+            if(this->left != NULL){
                 leftHeight = this->left->height();
             }
 
             // computing of the right height
-            if(this->right == NULL){
-                rightHeight = 0;
-            }else{
+            if(this->right != NULL){
                 rightHeight = this->right->height();
             }
 
@@ -243,11 +239,11 @@ struct BinarySearchTree : public BinaryTree
         // right child +1 for itself. If there is no child, return
         // just 1
 
-        int leftHeight = 0, rightHeight = 0;
-
         if(this->isLeaf()){
             return 1;
         }else{
+            int leftHeight = 0, rightHeight = 0;
+
             // computing of the left height
             if(this->left == NULL){
                 leftHeight = 0;
@@ -270,11 +266,7 @@ struct BinarySearchTree : public BinaryTree
 
 	bool isLeaf() const {
         // return True if the node is a leaf (it has no children)
-        if(this->left == NULL && this->right == NULL){
-            return true;
-        }else{
-            return false;
-        }
+        return this->left == NULL && this->right == NULL;
 	}
 
 	void allLeaves(Node* leaves[], uint& leavesCount) {
@@ -343,9 +335,17 @@ struct BinarySearchTree : public BinaryTree
                 return this;
             }else{
                 if(this->value < aValue){
-                    this->right->find(aValue);
+                    if(this->right){
+                        this->right->find(aValue);
+                    }else{
+                        return NULL;
+                    }
                 }else{
-                    this->left->find(aValue);
+                    if(this->left){
+                        this->left->find(aValue);
+                    }else{
+                        return NULL;
+                    }
                 }
             }
         }
